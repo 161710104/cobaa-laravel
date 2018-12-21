@@ -55,11 +55,7 @@ class BarangController extends Controller
         $barangs->satuan          = $request->satuan;
         $barangs->harga_jual    = $request->harga_jual;
         $barangs->save();
-        $insertLog                = new LogActivity();
-        $insertLog->user_id       = Auth::user()->id;
-        $insertLog->description   = 'Tambah Barang :'.$request->nama_barang;
-        $insertLog->save();
-        return redirect()->route('barangs.index');
+        return response()->json(['success'=>true]);
       }
 
     /**
@@ -81,8 +77,8 @@ class BarangController extends Controller
      */
     public function edit($id)
     {
-         $barangs = Barang::findorfail($id);
-          return view('Barang/edit',['barangs' => $barangs]);
+        $barangs = Barang::findorfail($id);
+        return view('Barang/edit',['barangs' => $barangs]);
     }
 
     /**
@@ -94,7 +90,17 @@ class BarangController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $barangs = Barang::findorfail($id);
+        $barangs->nama_barang    = $request->nama_barang;
+        $barangs->jenis          = $request->jenis;
+        $barangs->satuan          = $request->satuan;
+        $barangs->harga_jual    = $request->harga_jual;
+        $barangs->save();
+        $insertLog                = new LogActivity();
+        $insertLog->user_id       = Auth::user()->id;
+        $insertLog->description   = 'Tambah Barang :'.$request->nama_barang;
+        $insertLog->save();
+        return response()->json(['success'=>true]);
     }
 
     /**
@@ -113,8 +119,10 @@ class BarangController extends Controller
     public function delete($id)
     {
         $barangs = Barang::find($id);
-        $barangs->delete();
-        return redirect()->route('barangs.index');
+        if($barangs->delete())
+        {
+            echo 'Data Deleted';
+        }
     }
 
     public function table(){
@@ -122,7 +130,7 @@ class BarangController extends Controller
         return Datatables::of($barangs)
 
         ->addColumn('action', function ($barangs) {
-              return '<center><a href="/admin/barangs/'.$barangs->id.'/edit" rel="tooltip" title="Edit" class="btn btn-warning btn-simple btn-xs"><i class="fa fa-pencil"></i></a>&nbsp<a href="/admin/barangs/'.$barangs->id.'/delete" rel="tooltip" title="Delete" class="btn btn-danger btn-simple btn-xs delete" data-name="'.$barangs->nama_barang.'"><i class="fa fa-trash-o"></i></a></center>';
+              return '<center><a href="#" data-id="'.$barangs->id.'" rel="tooltip" title="Edit" class="btn btn-warning btn-simple btn-xs"><i class="fa fa-pencil"></i></a>&nbsp<a href="#" id="'.$barangs->id.'" rel="tooltip" title="Delete" class="btn btn-danger btn-simple btn-xs delete" data-name="'.$barangs->nama_barang.'"><i class="fa fa-trash-o"></i></a></center>';
             })
         ->addColumn('harga_pasar', function ($barangs) {
               return 'Rp.'. number_format($barangs->harga_beli,'2',',','.');

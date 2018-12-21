@@ -33,7 +33,10 @@ Route::group(['prefix'=>'admin', 'middleware'=>['auth','role:admin']], function 
     Route::resource('users', 'UserController');
 
     Route::resource('barangs', 'BarangController');
-    Route::get('/barangs/{id}/delete','BarangController@delete');
+    Route::get('barangs/getedit/{id}','BarangController@edit');
+    Route::get('/barangs/delete/{id}','BarangController@delete');
+    Route::post('barangs/edit/{id}','BarangController@update');
+    Route::post('storebarangs','BarangController@store')->name('tambahbarang');
     Route::get('/barangs/downloadPDF/{view_type}','BarangController@downloadPDF');
 
     Route::resource('customers', 'CustomerController');
@@ -74,9 +77,10 @@ Route::group(['prefix'=>'karyawan', 'middleware'=>['auth','role:karyawan|admin|s
     
 });
 
-//supplier
+//store
 Route::post('storesuppliers','SupplierController@store')->name('tambah');
 Route::post('storecustomers','CustomerController@store');
+
 
 //ajax datatable
 Route::get('/jsonuser','UserController@table');

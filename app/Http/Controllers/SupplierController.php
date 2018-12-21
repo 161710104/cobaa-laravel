@@ -50,7 +50,7 @@ class SupplierController extends Controller
           $suppliers->no_telepon          = $request->no_telepon;
           $suppliers->save();
           return response()->json(['success'=>true]);
-              }
+    }
 
     /**
      * Display the specified resource.

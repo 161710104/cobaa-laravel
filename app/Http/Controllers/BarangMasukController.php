@@ -109,6 +109,12 @@ class BarangMasukController extends Controller
         $barang_masuks->kuantitas          = $request->kuantitas;
         $barang_masuks->id_supplier    = $request->id_supplier;
         $barang_masuks->id_karyawan    =  $request->id_karyawan;
+        $barang = Barang::findOrFail($request->id_barang);
+        $kuantitas_awal = $request->quantity_awal;
+        $kuantitas = $request->quantity_awal - $request->kuantitas;
+        $barang->kuantitas =  $barang->kuantitas - $kuantitas;
+        $barang->harga_beli = $request->harga;
+        $barang->save();
         $barang_masuks->save();
         return redirect()->route('barang_masuks.index');
     }
@@ -127,6 +133,9 @@ class BarangMasukController extends Controller
     public function delete($id)
     {
         $barang_masuks = BarangMasuk::find($id);
+        $barang = Barang::findOrFail($barang_masuks->id_barang);
+        $barang->kuantitas =  $barang->kuantitas - $barang_masuks->kuantitas;
+        $barang->save();
         $barang_masuks->delete();
         return redirect()->route('barang_masuks.index');
     }

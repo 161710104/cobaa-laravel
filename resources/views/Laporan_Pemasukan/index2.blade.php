@@ -13,7 +13,7 @@
 													</thead>
 													<tbody>
 														<tr>
-												            @foreach ($barang_keluar as $item)
+												            @foreach (data as $item)
 															<td>{{$item->barang->nama_barang}}</td>
 															<td>{{$item->barang->jenis}}</td>
 															<td>{{$item->kuantitas}}</td>

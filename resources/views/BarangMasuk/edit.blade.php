@@ -92,6 +92,7 @@
 
 
 												<input type="hidden" name="id_karyawan" value="{{ Auth::user()->id }}">
+												<input type="hidden" name="quantity_awal" value="{{$barang_masuks->kuantitas}}">
 
 												
                                                 <div class="form-group">

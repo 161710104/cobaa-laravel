@@ -9,6 +9,8 @@
 					    <li class="breadcrumb-item">Barang</li>
 					</ul>
 
+          @include('Barang.create')
+          <div id="index">
 						<section class="panel">
 							<header class="panel-heading">
 								<div class="panel-actions">
@@ -17,7 +19,7 @@
 								</div>
 						
 								<h2 class="panel-title">Barang
-								&nbsp<a href="{{ route('barangs.create') }}" type="button" class="mb-xs mt-xs mr-xs btn btn-primary" ><i class="fa fa-plus"></i> Tambah Barang</a>
+								&nbsp<button type="button" class="mb-xs mt-xs mr-xs btn btn-primary" id="TambahBarang" ><i class="fa fa-plus"></i> Tambah Barang</button>
                 &nbsp
                 <button type="button" class="mb-xs mt-xs mr-xs modal-with-zoom-anim btn btn-info" data-toggle="modal" data-target="#myModal">
                   <i class="fa fa-print"></i> Print
@@ -37,21 +39,20 @@
 							               <th>Harga Jual / KG</th>
 							               <th><center> Action</center></th>
 										</tr>
-									</thead>
-									<tbody>
-							          </tbody>
-								</table>
-                </div>
-							</div>
-						</section>
+                  </thead>
+                </table>
+              </div>
+            </div>
+          </section>
+        </div>
             @include('Barang.print')
 
 
 @endsection
 @section('js')
   <script type="text/javascript">
-
   $(document).ready(function(){
+    createData();
     $('#datatable-ajax').DataTable({
       aaSorting :[],
       stateSave : true,
@@ -67,39 +68,83 @@
         {data : 'harga_jual'},
         {data: 'action', orderable: false, searchable: false}
       ],
-      drawCallback : function( settings ) {
-        $("[rel=tooltip]").tooltip();
-        $('.delete').click(function(e) {
-        e.preventDefault(); // Prevent the href from redirecting directly
-        var linkURL = $(this).attr("href");
-        var name = $(this).attr("data-name");
-        warnBeforeRedirect(linkURL,name);
-        });
-         function warnBeforeRedirect(linkURL,name) {
-           swal({
-               title: "Apakah Anda Yakin?",
-               text: "Anda akan menghapus data dengan nama = "+name+" !",
-               type: "warning",
-               showCancelButton: true,
-               confirmButtonColor: "#DD6B55",
-               confirmButtonText: "Ya, Hapus!",
-               cancelButtonText: "Tidak, Batalkan!",
-               closeOnConfirm: false,
-               closeOnCancel: false
-             },
-            function(isConfirm){
-          if (isConfirm) {
-            console.log('done');
-            swal("Dihapus!", "Data dengan nama  "+name+" sudah di hapus.", "success");
-            window.location.href = linkURL;
-          } else {
-              swal("Dibatalkan", "Data dengan nama "+name+" aman :)", "error");
-          }
-        });
-          }
-    }
-    });
   });
-  </script>
+    $('#create').attr('hidden',true); 
+    $('#TambahBarang').on('click',function(){
+            $('#create').attr('hidden',false);
+            state = "insert"; 
+            });
 
+    $('#cancel').on('click',function(){
+           $('#index').attr('hidden',false); 
+            $('#create').attr('hidden',true); 
+             });
+
+    function createData() {
+          $('#formBarang').submit(function(e){
+              $.ajaxSetup({
+                header: {
+                  'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
+                }
+              });
+              e.preventDefault();
+              if (state == 'insert') {
+              $.ajax({
+                  url:'storebarangs',
+                  type:'post',
+                  data: new FormData(this),
+                  cache: true,
+                  contentType: false,
+                  processData: false,
+                  async:false,
+                  dataType: 'json',
+                  success: function (data){
+                    console.log(data);
+                    swal({
+                        title:'Success Tambah!',
+                        text: data.message,
+                        type:'success',
+                        timer:'2000'
+                      });
+                    $('#create').attr('hidden',true);
+                    $('#index').attr('hidden',false);  
+                    $('#datatable-ajax').DataTable().ajax.reload();
+                  },
+                  complete: function() {
+                      $("#formBarang")[0].reset();
+                  }
+              });
+          }
+          else{
+            $.ajax({
+                  url:'barangs/edit' + '/' + $('#id').val(),
+                  type:'post',
+                  data: new FormData(this),
+                  cache: true,
+                  contentType: false,
+                  processData: false,
+                  async:false,
+                  dataType: 'json',
+                  success: function (data){
+                    console.log(data);
+                    swal({
+                        title:'Success Edit !',
+                        text: data.message,
+                        type:'success',
+                        timer:'2000'
+                      });
+                    $('#create').attr('hidden',true);
+                    $('#index').attr('hidden',false);  
+                    $('#datatable-ajax').DataTable().ajax.reload();
+                  },
+                  complete: function() {
+                      $("#formBarang")[0].reset();
+                  }
+              });
+          }
+          });
+      }
+
+    });
+  </script>
 @endsection
