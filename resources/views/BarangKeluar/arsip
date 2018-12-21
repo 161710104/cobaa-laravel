@@ -1,0 +1,183 @@
+@extends('layouts/app')
+
+@section('title','Barang Keluar | Create')
+@section('header','Barang Keluar')
+
+@section('content')
+					<ul class="app-breadcrumb breadcrumb side">
+					    <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+					    <li class="breadcrumb-item">Barang Keluar</li>
+					    <li class="breadcrumb-item">Tambah data</li>
+					</ul>
+                        <div class="row">
+							<div class="col-xs-12">
+								<section class="panel">
+									<header class="panel-heading">
+										<div class="panel-actions">
+											<a href="#" class="fa fa-caret-down"></a>
+											<a href="#" class="fa fa-times"></a>
+										</div>
+						
+										<h2 class="panel-title"><i class="fa fa-plus"></i> Tambah Barang Keluar</h2>
+										<div style="position:absolute;right:100px;top:10px;">
+							                <h5>
+						                        <div style="font-family: NEISTIL;">
+						                            <div class="dmy agileits w3layouts">
+						                            	Tanggal Barang Keluar:&nbsp
+						                                <b><script type="text/javascript">
+						                                    var mydate=new Date()
+						                                    var year=mydate.getYear()
+						                                    if(year<1000)
+						                                    year+=1900
+						                                    var day=mydate.getDay()
+						                                    var month=mydate.getMonth()
+						                                    var daym=mydate.getDate()
+						                                    if(daym<10)
+						                                    daym="0"+daym
+						                                    var dayarray=new Array("Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu")
+						                                    var montharray=new Array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember")
+						                                    document.write(" "+daym+" "+montharray[month]+"  "+year+"")
+						                                </script></b>
+						                             </div>
+						                        </div>
+						                    </h5>
+							            </div>
+									</header>
+									<div class="panel-body">
+										<div class="form-body">
+											<form class="form-horizontal form-bordered" action="{{ route('barang_keluars.store') }}" method="post">
+                                            {{ csrf_field() }}
+												<div class="form-group">
+													<label class="col-md-3 control-label">Nama Barang Keluar</label>
+													<div class="col-md-6">
+														<select class="form-control mb-md" name="id_barang" id="barang">
+															<option selected="selected" disabled="disabled" value="">-Pilih Barang-</option>
+															@foreach ($barang as $item)
+															<option value="{{$item->id}}">{{$item->nama_barang}}</option>
+															@endforeach
+														</select>
+													</div>
+                                                    @if ($errors->has('id_barang'))
+                                                        <span class="help-block">
+                                                            <strong style="color:red;">{{ $errors->first('id_barang') }}</strong>
+                                                        </span>
+                                                    @endif
+												</div>
+
+												
+
+
+                                                <div class="form-group">
+													<label class="col-md-3 control-label">Kuantitas</label>
+													<div class="col-md-6">
+														<div class="input-group">		
+															<input id="kuantitas" type="number" class="form-control" name="kuantitas">
+															Stok : <input id="stok" type="number" class="form-control" name="stok" value="">
+														</div>
+													</div>
+                                                    @if ($errors->has('kuantitas'))
+                                                        <span class="help-block">
+                                                            <strong style="color:red;">{{ $errors->first('kuantitas') }}</strong>
+                                                        </span>
+                                                    @endif
+												</div>
+
+												<div class="form-group">
+													<label class="col-md-3 control-label">Harga Jual</label>
+													<div class="col-md-6">
+														<div class="input-group">
+															<input id="harga_jual" type="number" class="form-control" name="harga" value="" readonly>
+														</div>
+													</div>
+                                                    @if ($errors->has('harga'))
+                                                        <span class="help-block">
+                                                            <strong style="color:red;">{{ $errors->first('harga') }}</strong>
+                                                        </span>
+                                                    @endif
+												</div>
+
+
+												<div class="form-group">
+													<label class="col-md-3 control-label">Nama customer</label>
+													<div class="col-md-6">
+														<select class="form-control mb-md" name="id_customer">
+															<option selected="selected" disabled="disabled" value="">-Pilih Customer-</option>
+															@foreach ($customer as $item)
+															<option value="{{$item->id}}">{{$item->nama}}</option>
+															@endforeach
+														</select>
+													</div>
+                                                    @if ($errors->has('id_customer'))
+                                                        <span class="help-block">
+                                                            <strong style="color:red;">{{ $errors->first('id_customer') }}</strong>
+                                                        </span>
+                                                    @endif
+												</div>
+
+
+												<input type="hidden" name="id_karyawan" value="{{ Auth::user()->id }}">
+
+												
+                                                <div class="form-group">
+													<label class="col-md-3 control-label"></label>
+													<div class="col-md-6">
+                                                    <button type="submit" class="mb-xs mt-xs mr-xs btn btn-primary"><i class="fa fa-check-circle"></i> Simpan</button>
+                                                    <button type="reset" class="mb-xs mt-xs mr-xs btn btn-danger"><i class="fa fa-ban"></i> Hapus</button>
+                                                    
+												</div>
+												
+											</div>
+										</form>
+									</div>
+								</section>
+
+							</div>
+						</div>
+						
+
+@endsection
+@section('js')
+  <script type="text/javascript">
+
+//     function myFunction() {
+   
+//     var checkBox = document.getElementById("date");
+//     var sebelum = document.getElementById("before");
+//     var sekarang = document.getElementById("today");
+    
+//   if (checkBox.checked == true){
+//     sebelum.style.display = "block";
+//     sekarang.style.display = 'none';
+   
+
+//   } else {
+//     sebelum.style.display = "none";
+//     sekarang.style.display = 'block';
+   
+//   }
+// }
+
+$("#barang").change(function()
+      {
+        var id=$(this).val();
+        $.ajax
+        
+        ({
+
+        type: "GET",
+        url: "/barang_keluars/getIdBarang",
+        data: {id: id},
+        cache: false,
+        dataType:"json",
+        success: function(data)
+      {
+        $("input[name='harga']").val(data.harga_jual);
+        $("input[name='stok']").val(data.kuantitas);
+
+    } 
+
+  });
+
+});
+	</script>
+@endsection

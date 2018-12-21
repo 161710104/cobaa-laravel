@@ -1,0 +1,2 @@
+<a href="/barang/{{$id}}/edit" rel="tooltip" title="Edit" class="btn btn-warning btn-simple btn-xs"><i class="fa fa-pencil"></i></a>
+<a href="/barang/{{$id}}/delete" rel="tooltip" title="Delete" class="btn btn-danger btn-simple btn-xs delete" data-name="{{$name}}"><i class="fa fa-trash"></i></a>

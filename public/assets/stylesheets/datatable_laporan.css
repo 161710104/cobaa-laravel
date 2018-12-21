@@ -1,0 +1,15 @@
+div.dataTables_length select {
+			    width: 75px;
+			    display: none;
+			}
+			div.dataTables_length label {
+			    float: left;
+			    text-align: left;
+			    display: none;
+			}
+		.dataTables_wrapper .dataTables_filter input {
+		    /* width: 100%; */
+		    margin-right: 160px;
+		    margin-top: 5px;
+		    display: none;
+		}
