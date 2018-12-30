@@ -120,6 +120,12 @@
                                             <span>Laporan Pengeluaran</span>
                                         </a>
                                     </li>
+                                    <li class="nav-item {{ Request::is('/admin/users') ? 'active' : ''}}">
+                                        <a href="/admin/users">
+                                            <i class="fa fa-user"></i>
+                                            <span>User</span>
+                                        </a>
+                                    </li>
                                     @endrole
                                     @role('karyawan')
                                     <li class="nav">

@@ -92,7 +92,7 @@
 
 
 												<input type="hidden" name="id_karyawan" value="{{ Auth::user()->id }}">
-
+												<input type="hidden" name="quantity_awal" value="{{$barang_keluars->kuantitas}}">
 												
                                                 <div class="form-group">
 													<label class="col-md-3 control-label"></label>

@@ -53,8 +53,10 @@ Route::group(['prefix'=>'admin', 'middleware'=>['auth','role:admin']], function 
     Route::get('/suppliers/delete/{id}','SupplierController@delete');
 
     Route::resource('barang_masuks', 'BarangMasukController');
-    Route::get('/barang_masuks/{id}/delete','BarangMasukController@delete');
-
+    Route::get('barang_masuks/getedit/{id}','BarangMasukController@edit');
+    Route::get('/barang_masuks/delete/{id}','BarangMasukController@delete');
+    Route::post('barang_masuks/edit/{id}','BarangMasukController@update');
+    Route::post('storebarang_masuks','BarangMasukController@store')->name('tambahbarangmasuk');
 
     Route::resource('barang_keluars', 'BarangKeluarController');
     Route::get('/barang_keluars/{id}/delete','BarangKeluarController@delete');
@@ -90,6 +92,7 @@ Route::get('/jsonsupplier','SupplierController@table');
 Route::get('/jsonbarang_masuks','BarangMasukController@table');
 Route::get('/jsonbarang_keluars','BarangKeluarController@table');
 Route::get('/jsonlaporan_pemasukan','LaporanPemasukanController@table');
+Route::get('/jsonlaporan_pemasukan2','LaporanPemasukanController@table2');
 Route::get('/jsonlaporan_pengeluaran','LaporanPengeluaranController@table');
 //ajax lcg_value()
 Route::get('/barang_keluars/getIdBarang','BarangKeluarController@getDetailBarang');

@@ -119,6 +119,12 @@ class BarangKeluarController extends Controller
         $barang_keluars->harga         = $request->harga;
         $barang_keluars->id_customer    = $request->id_customer;
         $barang_keluars->id_karyawan    =  Auth::user()->id;
+        $barang = Barang::findOrFail($request->id_barang);
+        $kuantitas_awal = $request->quantity_awal;
+        $kuantitas = $request->quantity_awal - $request->kuantitas;
+        $barang->kuantitas =  $barang->kuantitas + $kuantitas;
+        $barang->harga_beli = $request->harga;
+        $barang->save();
         $barang_keluars->save();
         return redirect()->route('barang_keluars.index');
     }

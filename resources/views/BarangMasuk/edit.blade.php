@@ -1,37 +1,26 @@
-@extends('layouts/app')
 
-@section('title','Barang Masuk | Edit')
-@section('header','Barang Masuk')
-
-@section('content')
-					<ul class="app-breadcrumb breadcrumb side">
-					    <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-					    <li class="breadcrumb-item">Barang Masuk</li>
-					    <li class="breadcrumb-item">Tambah data</li>
-					</ul>
-                        <div class="row">
+                        <div class="row" id="Edit">
 							<div class="col-xs-12">
 								<section class="panel">
 									<header class="panel-heading">
 										<div class="panel-actions">
 											<a href="#" class="fa fa-caret-down"></a>
-											<a href="#" class="fa fa-times"></a>
+											<i id="cancel_edit" class="fa fa-times"></i>
 										</div>
 						
 										<h2 class="panel-title"><i class="fa fa-pencil"></i> Edit Barang Masuk</h2>
 									</header>
 									<div class="panel-body">
 										<div class="form-body">
-											<form class="form-horizontal form-bordered" action="{{ route('barang_masuks.update', $barang_masuks->id) }}" method="post" enctype="multipart/form-data">
-                                        	<input name="_method" type="hidden" value="PATCH">
-                                            {{ csrf_field() }}
-
+											<form id="formBarang_masuk_edit" method="post" enctype="multipart/form-data">
+ 											{{csrf_field()}} {{ method_field('POST') }}
+											<input type="hidden" name="id" id="id">
 												<div class="form-group">
 													<label class="col-md-3 control-label">Nama Barang Masuk</label>
 													<div class="col-md-6">
-														<select class="form-control mb-md" name="id_barang">
+														<select class="form-control mb-md" name="id_barang" id="id_barang">
 															@foreach ($barang as $item)
-															<option value="{{$item->id}}" {{ $item->id == $barang_masuks->id_barang ? "selected":"" }} >{{$item->nama_barang}}</option>
+															<option value="{{$item->id}}">{{$item->nama_barang}}</option>
 															@endforeach
 														</select>
 													</div>
@@ -49,7 +38,7 @@
 													<label class="col-md-3 control-label">Kuantitas</label>
 													<div class="col-md-6">
 														<div class="input-group">		
-															<input id="kuantitas" type="number" class="form-control" name="kuantitas" value="{{$barang_masuks->kuantitas}}">
+															<input id="kuantitas" type="number" class="form-control" name="kuantitas">
 														</div>
 													</div>
                                                     @if ($errors->has('kuantitas'))
@@ -63,7 +52,7 @@
 													<label class="col-md-3 control-label">Harga</label>
 													<div class="col-md-6">
 														<div class="input-group">
-															<input id="harga" type="number" class="form-control" name="harga" name="harga" value="{{$barang_masuks->harga}}">
+															<input id="harga" type="number" class="form-control" name="harga" name="harga">
 														</div>
 													</div>
                                                     @if ($errors->has('harga'))
@@ -77,9 +66,9 @@
 												<div class="form-group">
 													<label class="col-md-3 control-label">Nama Supplier</label>
 													<div class="col-md-6">
-														<select class="form-control mb-md" name="id_supplier">
+														<select class="form-control mb-md" name="id_supplier" id="id_supplier">
 															@foreach ($supplier as $item)
-															<option value="{{$item->id}}" {{ $item->id == $barang_masuks->id_employee ? "selected":"" }} >{{$item->nama}}</option>
+															<option value="{{$item->id}}">{{$item->nama}}</option>
 															@endforeach
 														</select>
 													</div>
@@ -92,7 +81,7 @@
 
 
 												<input type="hidden" name="id_karyawan" value="{{ Auth::user()->id }}">
-												<input type="hidden" name="quantity_awal" value="{{$barang_masuks->kuantitas}}">
+												<input type="hidden" name="quantity_awal" id="quantity_awal">
 
 												
                                                 <div class="form-group">
@@ -110,28 +99,3 @@
 
 							</div>
 						</div>
-						
-
-@endsection
-<!-- @section('js')
-  <script type="text/javascript">
-
-    function myFunction() {
-   
-    var checkBox = document.getElementById("date");
-    var sebelum = document.getElementById("before");
-    var sekarang = document.getElementById("today");
-    
-  if (checkBox.checked == true){
-    sebelum.style.display = "block";
-    sekarang.style.display = 'none';
-   
-
-  } else {
-    sebelum.style.display = "none";
-    sekarang.style.display = 'block';
-   
-  }
-}
-	</script>
-@endsection -->

@@ -20,7 +20,13 @@ class BarangMasukController extends Controller
     public function index()
     {
         $barang_masuks = BarangMasuk::all();
-        return view('BarangMasuk/index',['barang_masuks' => $barang_masuks]);
+        $barang = Barang::all();
+        $supplier = Supplier::all();
+        return view('BarangMasuk/index',[
+            'barang_masuks' => $barang_masuks,
+            'barang' => $barang,
+            'supplier' => $supplier,
+        ]);
     }
 
     /**
@@ -30,12 +36,7 @@ class BarangMasukController extends Controller
      */
     public function create()
     {
-        $barang = Barang::all();
-        $supplier = Supplier::all();
-        return view('BarangMasuk/create',[
-            'barang' => $barang,
-            'supplier' => $supplier,
-        ]);
+        return view('BarangMasuk/create');
     }
 
     /**
@@ -61,7 +62,7 @@ class BarangMasukController extends Controller
         $barang->save();
         $barang_masuks->save();
         }
-        return redirect()->route('barang_masuks.index');
+        return response()->json(['success'=>true]);
     }
 
     /**
@@ -84,13 +85,7 @@ class BarangMasukController extends Controller
     public function edit($id)
     {
         $barang_masuks = BarangMasuk::find($id);
-        $barang = Barang::all();
-        $supplier = Supplier::all();
-        return view('BarangMasuk/edit',[
-            'barang_masuks' => $barang_masuks,
-            'barang' => $barang,
-            'supplier' => $supplier,
-        ]);
+        return $barang_masuks;
     }
 
     /**
@@ -116,7 +111,7 @@ class BarangMasukController extends Controller
         $barang->harga_beli = $request->harga;
         $barang->save();
         $barang_masuks->save();
-        return redirect()->route('barang_masuks.index');
+        return response()->json(['success'=>true]);
     }
 
     /**
@@ -136,8 +131,10 @@ class BarangMasukController extends Controller
         $barang = Barang::findOrFail($barang_masuks->id_barang);
         $barang->kuantitas =  $barang->kuantitas - $barang_masuks->kuantitas;
         $barang->save();
-        $barang_masuks->delete();
-        return redirect()->route('barang_masuks.index');
+         if($barang_masuks->delete())
+        {
+            echo 'Data Deleted';
+        }
     }
 
     public function table(){
@@ -145,7 +142,7 @@ class BarangMasukController extends Controller
         return Datatables::of($barang_masuks)
 
         ->addColumn('action', function ($barang_masuks) {
-              return '<center><a href="/admin/barang_masuks/'.$barang_masuks->id.'/edit" rel="tooltip" title="Edit" class="btn btn-warning btn-simple btn-xs"><i class="fa fa-pencil"></i></a>&nbsp<a href="/admin/barang_masuks/'.$barang_masuks->id.'/delete" rel="tooltip" title="Delete" class="btn btn-danger btn-simple btn-xs delete" data-name="'.$barang_masuks->barang->nama_barang.'"><i class="fa fa-trash-o"></i></a></center>';
+              return '<center><a href="#" data-id="'.$barang_masuks->id.'" rel="tooltip" title="Edit" class="btn btn-warning btn-simple btn-xs editBarang"><i class="fa fa-pencil"></i></a>&nbsp<a href="#" id="'.$barang_masuks->id.'" rel="tooltip" title="Delete" class="btn btn-danger btn-simple btn-xs delete" data-name="'.$barang_masuks->id.'"><i class="fa fa-trash-o"></i></a></center';
             })
         ->addColumn('tanggal_masuk', function ($barang_masuks) {
               return date('d F Y' , strtotime($barang_masuks->created_at));

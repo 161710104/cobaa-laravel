@@ -13,7 +13,6 @@
 							<header class="panel-heading">
 								<div class="panel-actions">
 									<a href="#" class="fa fa-caret-down"></a>
-									<a href="#" class="fa fa-times"></a>
 								</div>
 						
 								<h2 class="panel-title"><i class="fa fa-user"></i> User
@@ -33,6 +32,17 @@
 										</tr>
 									</thead>
 									<tbody>
+                    <tr>
+                              @foreach ($users as $item)
+                              <td>{{$item->name}}</td>
+                              <td>{{$item->email}}</td>
+                              <td>
+                              <center><a href="#" data-id="'.$users->id.'" rel="tooltip" title="Edit" 
+                              class="btn btn-warning btn-simple btn-xs editSupplier"><i class="fa fa-pencil"></i></a>
+                              &nbsp<a href="/admin/users/'.$users->id.'/delete" rel="tooltip" title="Delete" class="btn btn-danger btn-simple btn-xs delete" data-name="'.$users->nama.'"><i class="fa fa-trash-o"></i></a></center>   
+                              </td>
+                            </tr>
+                            @endforeach
 							          	
 							          </tbody>
 								</table>
@@ -42,62 +52,9 @@
 
 @endsection
 @section('js')
-<script type="text/javascript">
+  <script type="text/javascript">
   $(document).ready(function(){
-    $('#datatable-ajax').DataTable({
-      aaSorting :[],
-      stateSave : true,
-      processing : true,
-      serverSide : true,
-      ajax : '/jsonuser',
-      columns : [
-        {data : 'name', name: 'name'},
-        {data : 'email' , name: 'email'},
-        {data: 'action', orderable: false, searchable: false}
-      ],  
-      drawCallback : function( settings ) {
-        $("[rel=tooltip]").tooltip();
-        $('.delete').click(function(e) {
-        e.preventDefault(); // Prevent the href from redirecting directly
-        var linkURL = $(this).attr("href");
-        var name = $(this).attr("data-name");
-        warnBeforeRedirect(linkURL,name);
-        });
-         function warnBeforeRedirect(linkURL,name) {
-           swal({
-               title: "Apakah Anda Yakin?",
-               text: "Anda akan menghapus data dengan nama = "+name+" !",
-               type: "warning",
-               showCancelButton: true,
-               confirmButtonColor: "#DD6B55",
-               confirmButtonText: "Ya, Hapus!",
-               cancelButtonText: "Tidak, Batalkan!",
-               closeOnConfirm: false,
-               closeOnCancel: false
-             },
-            function(isConfirm){
-          if (isConfirm) {
-            console.log('done');
-            swal("Dihapus!", "Data dengan nama  "+name+" sudah di hapus.", "success");
-            window.location.href = linkURL;
-          } else {
-              swal("Dibatalkan", "Data dengan nama "+name+" aman :)", "error");
-          }
-        });
-          }
-    }
-    });
-  $('#TambahSupplier').click(function(){
-            $('#myModalUser').modal('show');
-            $('#aksi').val('TambahUser');
-            state = "insert";
-            });
-
-           $('#myModalUser').on('hidden.bs.modal',function(e){
-            $(this).find('#formUser')[0].reset();
-            $('span.has-error').text('');
-            $('.form-group.has-error').removeClass('has-error');
-            });
-       });
-</script>
+    $('#datatable-ajax').DataTable();
+  });
+  </script>
 @endsection

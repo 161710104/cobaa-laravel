@@ -144,6 +144,61 @@
           }
           });
       }
+      $(document).on('click', '.editBarang', function(){
+            var nomor = $(this).data('id');
+            $('#formBarang').submit('');
+            $.ajax({
+              url:'barangs/getedit' + '/' + nomor,
+              method:'get',
+              data:{id:nomor},
+              dataType:'json',
+              success:function(data){
+                console.log(data);
+                state = "update";
+                $('#id').val(data.id);
+                $('#nama_barang').val(data.nama_barang);
+                $('#jenis').val(data.jenis);
+                $('#satuan').val(data.satuan);
+                $('#harga_jual').val(data.harga_jual);
+                $('#create').attr('hidden',false);
+                $('#index').attr('hidden',false);
+                $('#aksi').val('Simpan');
+                }
+              });
+          });
+
+                  $('#create').attr('hidden',true);
+                  $('#index').attr('hidden',false);  
+                  $('#datatable-ajax').DataTable().ajax.reload();
+
+              $(document).on('click', '.delete', function(){
+              var bebas = $(this).attr('id');
+                if (confirm("Yakin Dihapus ?")) {
+                  $.ajax({
+                    url: 'barangs/delete' + '/' + bebas,
+                    method: "get",
+                    data:{id:bebas},
+                    success: function(data){
+                      swal({
+                        title:'Success Delete!',
+                        text:'Data Berhasil Dihapus',
+                        type:'success',
+                        timer:'1500'
+                      });
+                      $('#datatable-ajax').DataTable().ajax.reload();
+                    }
+                  })
+                }
+                else
+                {
+                  swal({
+                    title:'Batal',
+                    text:'Data Tidak Jadi Dihapus',
+                    type:'error',
+                    });
+                  return false;
+                }
+              });
 
     });
   </script>

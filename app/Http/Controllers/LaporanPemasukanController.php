@@ -173,6 +173,32 @@ class LaporanPemasukanController extends Controller
         ->make(true);
     }
 
+    public function table2(Request $request){
+        $barang_keluars = BarangKeluar::with('barang')
+                            ->with('customer')
+                            ->with('karyawan')
+                            ->orderBy('created_at','asc');
+        return Datatables::of($barang_keluars)
+
+        ->addColumn('tanggal_keluar', function ($barang_keluars) {
+              return date('d F Y' , strtotime($barang_keluars->created_at));
+            })
+        ->addColumn('harga_jual', function ($barang_keluars) {
+             return 'Rp.'. number_format($barang_keluars->harga,'2',',','.');
+            })
+        ->addColumn('total_harga', function ($barang_keluars) {
+             return 'Rp.'. number_format($barang_keluars->total,'2',',','.');
+            })
+        ->addColumn('quantity', function ($barang_keluars) {
+              return $barang_keluars->kuantitas.'&nbsp'.$barang_keluars->barang->satuan;
+            })
+
+        ->rawColumns(['action','tanggal_keluar','harga_jual','quantity','total_harga'])
+        ->make(true);
+    }
+
+
+
     public function downloadPDF(Request $request)
     {
         $barang_keluars = BarangKeluar::whereDate('created_at', Carbon::today())->get();

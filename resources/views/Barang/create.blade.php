@@ -33,7 +33,7 @@
 													<div class="col-md-6 control-label">
                                                     
 														<select class="form-control" name="jenis" id="jenis">
-                                                                <option value="Sayuran" >Sayur-Sayuran</option> 
+                                                                <option value="Sayur" >Sayur-Sayuran</option> 
                                                                 <option value="Buah" >Buah-Buahan</option>
 														</select>
 													
@@ -51,7 +51,7 @@
                                                   
 														<select class="form-control" name="satuan" id="satuan">
                                                                 <option value="Kilogram" >Kilogram</option>
-                                                                <option value="IKat">IKat</option>
+                                                                <option value="Ikat">IKat</option>
 														</select>
 													
 													</div>
@@ -66,7 +66,7 @@
 													<label class="col-md-3 control-label">Harga Jual / KG</label>
 													<div class="col-md-6">
 														
-													<input id="nama_barang" type="number" class="form-control" name="harga_jual" id="harga_jual">
+													<input type="number" class="form-control" name="harga_jual" id="harga_jual">
 														
 													</div>
                                                     @if ($errors->has('harga_jual'))

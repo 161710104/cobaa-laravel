@@ -19,7 +19,6 @@
 									<header class="panel-heading">
 										<div class="panel-actions">
 											<a href="#" class="fa fa-caret-down"></a>
-											<a href="#" class="fa fa-times"></a>
 										</div>
 										
 										<h2 class="panel-title">
@@ -125,12 +124,12 @@
 
   $(document).ready(function(){
   	createData();
-    $('#datatable-ajax').DataTable({
+    $('#datatable-ajax2').DataTable({
       aaSorting :[],
       stateSave : true,
       processing : true,
       serverSide : true,
-      ajax : '/jsonlaporan_pemasukan',
+      ajax : '/jsonlaporan_pemasukan2',
       columns : [
         {data : 'barang.nama_barang'},
         {data : 'barang.jenis'},
@@ -166,9 +165,10 @@
                         type:'success',
                         timer:'2000'
                       });
-                    $('#index2').attr('hidden',true);
-     				$('#index1').attr('hidden',false);
-     				$('#table2').attr('hidden',true);  
+                    $('#index2').attr('hidden',false);
+     				$('#index1').attr('hidden',true);
+                    $('#datatable-ajax').attr('hidden',true);
+                    $('#datatable-ajax2').DataTable().ajax.reload();  
                   },
                   complete: function() {
                       $("#formLaporanpemasukan")[0].reset();
@@ -177,6 +177,26 @@
           });
       }
   });
+  </script>
+  <script type="text/javascript">
+  	 $(document).ready(function(){
+    $('#datatable-ajax').DataTable({
+      aaSorting :[],
+      stateSave : true,
+      processing : true,
+      serverSide : true,
+      ajax : '/jsonlaporan_pemasukan',
+      columns : [
+        {data : 'barang.nama_barang'},
+        {data : 'barang.jenis'},
+        {data : 'quantity'},
+        {data : 'harga_jual'},
+        {data : 'total_harga'},
+        {data : 'tanggal_keluar'},
+        {data : 'customer.nama'},
+      ],
+    });
+});
   </script>
 
 @endsection

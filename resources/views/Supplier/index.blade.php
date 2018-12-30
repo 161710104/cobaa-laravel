@@ -4,18 +4,17 @@
 @section('header','supplier')
 
 @section('content')
-@include('Supplier.create')
-<div id="awal">
 					<ul class="app-breadcrumb breadcrumb side">
 					    <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
 					    <li class="breadcrumb-item">Supplier</li>
 					</ul>
-          
+@include('Supplier.create')
+
+<div id="awal">
 						<section class="panel">
 							<header class="panel-heading">
 								<div class="panel-actions">
 									<a href="#" class="fa fa-caret-down"></a>
-									<a href="#" class="fa fa-times"></a>
 								</div>
 						
 								<h2 class="panel-title">Supplier
@@ -65,7 +64,7 @@
 
      $('#create').attr('hidden',true); 
     $('#TambahSupplier').on('click',function(){
-            $('#awal').attr('hidden',true); 
+            $('#awal').attr('hidden',false); 
             $('#create').attr('hidden',false);
             state = "insert"; 
             });
@@ -96,7 +95,7 @@
                   success: function (data){
                     console.log(data);
                     swal({
-                        title:'Success Tambah!',
+                        title:'Berhasil Menambahkan Data!',
                         text: data.message,
                         type:'success',
                         timer:'2000'
@@ -123,7 +122,7 @@
                   success: function (data){
                     console.log(data);
                     swal({
-                        title:'Success Edit !',
+                        title:'Berhasil Edit !',
                         text: data.message,
                         type:'success',
                         timer:'2000'
@@ -155,7 +154,7 @@
                 $('#no_telepon').val(data.no_telepon);
                 $('#alamat').val(data.alamat);
                 $('#create').attr('hidden',false);
-                $('#awal').attr('hidden',true);  
+                $('#awal').attr('hidden',false);  
                 $('#aksi').val('Simpan');
                 }
               });

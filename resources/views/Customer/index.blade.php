@@ -19,7 +19,7 @@
 									<a href="#" class="fa fa-times"></a>
 								</div>
 						
-								<h2 class="panel-title">Customer
+								<h2 class="panel-title"><i class="fa fa-users   "></i> Customer
 								&nbsp<button type="button" class="mb-xs mt-xs mr-xs btn btn-primary" id="TambahCustomer" >
 								<i class="fa fa-plus"></i> Tambah Customer</button>
 								</h2>

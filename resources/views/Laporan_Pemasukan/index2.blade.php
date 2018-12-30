@@ -1,5 +1,5 @@
 											<div id="index2">
-												<table class="table mb-none" id="table2">
+												<table class="table mb-none" id="datatable-ajax2">
 													<thead>
 														<tr>
 											               <th>Nama Barang Keluar</th>
@@ -12,22 +12,6 @@
 														</tr>
 													</thead>
 													<tbody>
-														<tr>
-												            @foreach (data as $item)
-															<td>{{$item->barang->nama_barang}}</td>
-															<td>{{$item->barang->jenis}}</td>
-															<td>{{$item->kuantitas}}</td>
-															<td>
-
-																<?php echo 'Rp.'. number_format($item->harga) ?>		
-															</td>
-															<td><?php echo  'Rp.'. number_format($item->total)?></td>
-															<td>
-																<?php echo date('d F Y' , strtotime($item->created_at)) ?>
-															</td>
-															<td>{{$item->customer->nama}}</td>
-														</tr>
-														@endforeach
 											          </tbody>
 											          </tbody>
 												</table>
